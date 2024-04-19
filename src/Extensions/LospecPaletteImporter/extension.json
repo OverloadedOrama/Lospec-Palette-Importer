@@ -1,0 +1,12 @@
+{
+	"name": "LospecPaletteImporter",
+	"display_name": "Lospec Palette Importer",
+	"description": "Download and import palettes directly from Lospec.",
+	"author": "Orama Interactive",
+	"supported_api_versions": [ 4 ],
+	"version": "1.0",
+	"license": "MIT",
+	"nodes": [
+		"LospecPaletteImporter.tscn"
+	]
+}

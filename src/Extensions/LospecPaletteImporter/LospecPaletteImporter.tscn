@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://jsvmnoss0cff"]
+
+[ext_resource type="Script" path="res://src/Extensions/LospecPaletteImporter/LospecPaletteImporter.gd" id="1_1bk5d"]
+
+[node name="LospecPaletteImporter" type="ConfirmationDialog"]
+disable_3d = true
+title = "Lospec Palette Importer"
+position = Vector2i(0, 36)
+size = Vector2i(300, 247)
+ok_button_text = "Save"
+script = ExtResource("1_1bk5d")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 292.0
+offset_bottom = 198.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PaletteLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Insert palette name or URL"
+
+[node name="Search" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+text = "Search"
+
+[node name="PaletteInfo" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PaletteColorsPreview" type="TextureRect" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+stretch_mode = 5
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Search" to="." method="_on_search_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
