@@ -6,42 +6,128 @@
 disable_3d = true
 title = "Lospec Palette Importer"
 position = Vector2i(0, 36)
-size = Vector2i(300, 247)
-ok_button_text = "Save"
+size = Vector2i(476, 350)
+ok_button_text = "Save  & Close"
+cancel_button_text = "Close"
 script = ExtResource("1_1bk5d")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 292.0
-offset_bottom = 198.0
+offset_right = 468.0
+offset_bottom = 301.0
+size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="SearchBar" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
+columns = 2
 
-[node name="PaletteLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="PaletteLineEdit" type="LineEdit" parent="VBoxContainer/SearchBar"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Insert palette name or URL"
 
-[node name="Search" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Search" type="Button" parent="VBoxContainer/SearchBar"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 text = "Search"
 
-[node name="PaletteInfo" type="Label" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SearchBar"]
 layout_mode = 2
 
-[node name="PaletteColorsPreview" type="TextureRect" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/SearchBar/HBoxContainer"]
+layout_mode = 2
+text = "Or try the "
+
+[node name="DailyPalette" type="LinkButton" parent="VBoxContainer/SearchBar/HBoxContainer"]
+layout_mode = 2
+text = "daily palette"
+
+[node name="Label2" type="Label" parent="VBoxContainer/SearchBar/HBoxContainer"]
+layout_mode = 2
+text = ", or a "
+
+[node name="RandomPalette" type="LinkButton" parent="VBoxContainer/SearchBar/HBoxContainer"]
+layout_mode = 2
+text = "random palette."
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+self_modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="PaletteInfo" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="InfoSeparator" type="VSeparator" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PaletteColorsPreview" type="TextureRect" parent="VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 texture_filter = 1
 custom_minimum_size = Vector2(0, 23)
 layout_mode = 2
+size_flags_vertical = 3
 stretch_mode = 5
+
+[node name="PaletteOption" type="HBoxContainer" parent="VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="RowColumn" type="OptionButton" parent="VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/PaletteOption"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 2
+selected = 1
+popup/item_0/text = "Rows:"
+popup/item_0/id = 0
+popup/item_1/text = "Columns:"
+popup/item_1/id = 1
+
+[node name="RowColumnValue" type="SpinBox" parent="VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/PaletteOption"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 10.0
+
+[node name="Options" type="GridContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+columns = 2
+
+[node name="UseNoSave" type="Button" parent="VBoxContainer/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Use Palette but Don't Save"
+
+[node name="SaveNoClose" type="Button" parent="VBoxContainer/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save Palette"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [connection signal="confirmed" from="." to="." method="_on_confirmed"]
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Search" to="." method="_on_search_pressed"]
+[connection signal="pressed" from="VBoxContainer/SearchBar/Search" to="." method="_on_search_pressed"]
+[connection signal="pressed" from="VBoxContainer/SearchBar/HBoxContainer/DailyPalette" to="." method="_on_daily_palette_pressed"]
+[connection signal="pressed" from="VBoxContainer/SearchBar/HBoxContainer/RandomPalette" to="." method="_on_random_palette_pressed"]
+[connection signal="item_selected" from="VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/PaletteOption/RowColumn" to="." method="_on_row_column_item_selected"]
+[connection signal="value_changed" from="VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/PaletteOption/RowColumnValue" to="." method="_on_row_column_value_value_changed"]
+[connection signal="pressed" from="VBoxContainer/Options/SaveNoClose" to="." method="_on_save_no_close_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
