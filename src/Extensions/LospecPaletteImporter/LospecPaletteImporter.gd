@@ -8,6 +8,7 @@ var slugify := SLUGIFY.new()
 var found_palette: Dictionary
 var palette_panel: Control
 var import_from_lospec_button: Button
+var row_column_value_slider := ValueSlider.new()
 var searching_daily_name := false
 var rows: int = 1
 var columns: int = 1
@@ -16,7 +17,7 @@ var columns: int = 1
 @onready var palette_info := $VBoxContainer/PanelContainer/HBoxContainer/PaletteInfo as Label
 @onready var palette_colors_preview := %PaletteColorsPreview as TextureRect
 @onready var http_request := $HTTPRequest as HTTPRequest
-@onready var options: GridContainer = $VBoxContainer/Options
+@onready var row_column_option: OptionButton = %RowColumn
 
 
 func _enter_tree() -> void:
@@ -37,6 +38,11 @@ func _enter_tree() -> void:
 	import_from_lospec_button.add_child(texture_rect)
 	palette_panel.find_child("PaletteButtons").add_child(import_from_lospec_button)
 	get_ok_button().disabled = true
+	%PaletteOption.add_child(row_column_value_slider)
+	row_column_value_slider.value_changed.connect(_on_row_column_value_value_changed)
+	row_column_value_slider.min_value = 0
+	row_column_value_slider.value = 10  # an apropriate value (to make things look nicer)
+	row_column_value_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 
 func _exit_tree() -> void:
@@ -47,12 +53,22 @@ func _on_visibility_changed() -> void:
 	ExtensionsApi.dialog.dialog_open(visible)
 
 
-func _on_save_no_close_pressed() -> void:
-	save_palette()
-
-
 func _on_confirmed() -> void:
-	save_palette()
+	if found_palette.is_empty():
+		return
+	var colors: PackedStringArray = found_palette["colors"]
+	var pixelorama_json_colors := []
+	for i in colors.size():
+		var color_hex := colors[i]
+		var color := Color(color_hex)
+		pixelorama_json_colors.append({"color": color, "index": i})
+	var pixelorama_json := {
+		"comment": found_palette["author"],
+		"width": columns,
+		"height": rows,
+		"colors": pixelorama_json_colors
+	}
+	ExtensionsApi.palette.create_palette_from_data(found_palette["name"], pixelorama_json)
 
 
 func _on_daily_palette_pressed() -> void:
@@ -95,7 +111,6 @@ func _on_http_request_request_completed(
 	%InfoSeparator.visible = true
 	%PaletteOption.visible = true
 	get_ok_button().disabled = false
-	options.visible = true
 
 
 ## Helper functions
@@ -112,40 +127,19 @@ func start_search(name_url: String, append_extension := ".json") -> void:
 	%InfoSeparator.visible = false
 	%PaletteOption.visible = false
 	get_ok_button().disabled = true
-	options.visible = false
-
-
-func save_palette() -> void:
-	if found_palette.is_empty():
-		return
-	var colors: PackedStringArray = found_palette["colors"]
-	var pixelorama_json_colors := []
-	for i in colors.size():
-		var color_hex := colors[i]
-		var color := Color(color_hex)
-		pixelorama_json_colors.append({"color": color, "index": i})
-	var pixelorama_json := {
-		"comment": found_palette["author"],
-		"width": columns,
-		"height": rows,
-		"colors": pixelorama_json_colors
-	}
-	ExtensionsApi.palette.create_palette_from_data(found_palette["name"], pixelorama_json)
 
 
 func update_preview():
 	if found_palette.is_empty():
 		return
-	var row_column_option: OptionButton = %RowColumn
-	var row_column_value: SpinBox = %RowColumnValue
 	var colors: PackedStringArray = found_palette["colors"]
 	var colors_size = colors.size()
 	var image_preview: Image
-	row_column_value.max_value = colors.size()
+	row_column_value_slider.max_value = colors.size()
 	var i = 0
 	match row_column_option.selected:
 		0:  # Rows
-			rows = row_column_value.value
+			rows = row_column_value_slider.value
 			columns = ceili(float(colors_size) / rows)
 			image_preview = Image.create(columns, rows, false, Image.FORMAT_RGBA8)
 			for x in image_preview.get_width():
@@ -155,7 +149,7 @@ func update_preview():
 					image_preview.set_pixel(x, y, Color(colors[i]))
 					i += 1
 		1:  # Columns
-			columns = row_column_value.value
+			columns = row_column_value_slider.value
 			rows = ceili(float(colors_size) / columns)
 			image_preview = Image.create(columns, rows, false, Image.FORMAT_RGBA8)
 			for y in image_preview.get_height():
