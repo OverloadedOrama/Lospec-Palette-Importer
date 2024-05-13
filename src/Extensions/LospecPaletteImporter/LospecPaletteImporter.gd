@@ -40,8 +40,8 @@ func _enter_tree() -> void:
 	get_ok_button().disabled = true
 	%PaletteOption.add_child(row_column_value_slider)
 	row_column_value_slider.value_changed.connect(_on_row_column_value_value_changed)
-	row_column_value_slider.min_value = 0
-	row_column_value_slider.value = 10  # an apropriate value (to make things look nicer)
+	row_column_value_slider.min_value = 1
+	row_column_value_slider.value = 10  # an appropriate value (to make things look nicer)
 	row_column_value_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 
