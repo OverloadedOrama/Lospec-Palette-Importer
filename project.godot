@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Lospec Palette Importer"
-config/description="A Pixelorama extension for downloading and importing palettes directly from Lospec"
+config/description="A Pixelorama extension for downloading and importing palettes directly from Lospec."
 run/main_scene="res://src/Extensions/LospecPaletteImporter/LospecPaletteImporter.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"

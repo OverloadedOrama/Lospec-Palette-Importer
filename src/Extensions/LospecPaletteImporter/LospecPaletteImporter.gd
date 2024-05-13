@@ -129,14 +129,14 @@ func start_search(name_url: String, append_extension := ".json") -> void:
 	get_ok_button().disabled = true
 
 
-func update_preview():
+func update_preview() -> void:
 	if found_palette.is_empty():
 		return
 	var colors: PackedStringArray = found_palette["colors"]
-	var colors_size = colors.size()
+	var colors_size := colors.size()
 	var image_preview: Image
-	row_column_value_slider.max_value = colors.size()
-	var i = 0
+	row_column_value_slider.max_value = colors_size
+	var i := 0
 	match row_column_option.selected:
 		0:  # Rows
 			rows = row_column_value_slider.value
@@ -144,7 +144,7 @@ func update_preview():
 			image_preview = Image.create(columns, rows, false, Image.FORMAT_RGBA8)
 			for x in image_preview.get_width():
 				for y in image_preview.get_height():
-					if i >= colors.size():
+					if i >= colors_size:
 						break
 					image_preview.set_pixel(x, y, Color(colors[i]))
 					i += 1
@@ -154,7 +154,7 @@ func update_preview():
 			image_preview = Image.create(columns, rows, false, Image.FORMAT_RGBA8)
 			for y in image_preview.get_height():
 				for x in image_preview.get_width():
-					if i >= colors.size():
+					if i >= colors_size:
 						break
 					image_preview.set_pixel(x, y, Color(colors[i]))
 					i += 1
