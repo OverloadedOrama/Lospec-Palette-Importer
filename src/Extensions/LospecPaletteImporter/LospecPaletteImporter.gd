@@ -105,7 +105,10 @@ func _on_http_request_request_completed(
 	found_palette = json
 	var colors: PackedStringArray = json["colors"]
 	var colors_size: int = colors.size()
-	palette_info.text = 'Palette: "%s"\nAuthor: %s\nColor count: %s colors' % [json["name"], json["author"], colors_size]
+	palette_info.text = (
+		'Palette: "%s"\nAuthor: %s\nColor count: %s colors'
+		% [json["name"], json["author"], colors_size]
+	)
 	update_preview()
 	# change visibilities of some items
 	%InfoSeparator.visible = true

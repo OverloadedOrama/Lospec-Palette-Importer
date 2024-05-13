@@ -37,7 +37,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/SearchBar/HBoxContainer"]
 layout_mode = 2
-text = "Or try the "
+text = "Or try the"
 
 [node name="DailyPalette" type="LinkButton" parent="VBoxContainer/SearchBar/HBoxContainer"]
 layout_mode = 2
@@ -45,7 +45,7 @@ text = "daily palette"
 
 [node name="Label2" type="Label" parent="VBoxContainer/SearchBar/HBoxContainer"]
 layout_mode = 2
-text = ", or a "
+text = ", or a"
 
 [node name="RandomPalette" type="LinkButton" parent="VBoxContainer/SearchBar/HBoxContainer"]
 layout_mode = 2
