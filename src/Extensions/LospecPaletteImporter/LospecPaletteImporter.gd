@@ -8,7 +8,7 @@ var slugify := SLUGIFY.new()
 var found_palette: Dictionary
 var palette_panel: Control
 var import_from_lospec_button: Button
-var row_column_value_slider := ValueSlider.new()
+var row_column_value_slider = ExtensionsApi.general.create_value_slider()
 var searching_daily_name := false
 var rows: int = 1
 var columns: int = 1
