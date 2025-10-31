@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://jsvmnoss0cff"]
 
-[ext_resource type="Script" path="res://src/Extensions/LospecPaletteImporter/LospecPaletteImporter.gd" id="1_1bk5d"]
+[ext_resource type="Script" uid="uid://cviua2g1miltl" path="res://src/Extensions/LospecPaletteImporter/LospecPaletteImporter.gd" id="1_1bk5d"]
 
 [node name="LospecPaletteImporter" type="ConfirmationDialog"]
 disable_3d = true
@@ -90,8 +90,8 @@ layout_mode = 2
 [node name="RowColumn" type="OptionButton" parent="VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/PaletteOption"]
 unique_name_in_owner = true
 layout_mode = 2
-item_count = 2
 selected = 1
+item_count = 2
 popup/item_0/text = "Rows:"
 popup/item_0/id = 0
 popup/item_1/text = "Columns:"

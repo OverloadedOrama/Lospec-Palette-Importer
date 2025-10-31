@@ -3,8 +3,8 @@
 	"display_name": "Lospec Palette Importer",
 	"description": "Download and import palettes directly from Lospec.",
 	"author": "Orama Interactive",
-	"supported_api_versions": [ 4 ],
-	"version": "1.2",
+	"supported_api_versions": [ 8 ],
+	"version": "1.3",
 	"license": "MIT",
 	"nodes": [
 		"LospecPaletteImporter.tscn"
